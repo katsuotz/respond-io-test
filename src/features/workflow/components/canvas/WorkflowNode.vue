@@ -57,7 +57,8 @@ const attachmentCount = computed(
     <h2>{{ node.title }}</h2>
     <p class="node-description">{{ summary }}</p>
     <div v-if="attachmentCount" class="attachment-count">
-      <Paperclip :size="12" />{{ attachmentCount }} attachment{{ attachmentCount > 1 ? 's' : '' }}
+      <Paperclip :size="12" />
+      {{ attachmentCount }} attachment{{ attachmentCount > 1 ? 's' : '' }}
     </div>
     <Handle v-if="node.type !== 'businessHours'" type="source" :position="Position.Bottom" />
     <Handle v-else type="source" :position="Position.Bottom" :connectable="false" />
@@ -190,7 +191,9 @@ h2 {
   border: 2px solid white;
   background: var(--connector);
   box-shadow: 0 0 0 1px #9bb7ad33;
-  transition: background-color 150ms, box-shadow 150ms;
+  transition:
+    background-color 150ms,
+    box-shadow 150ms;
 }
 :deep(.vue-flow__handle:hover) {
   background: #176e59;

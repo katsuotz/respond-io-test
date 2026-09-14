@@ -122,7 +122,9 @@ function removeAttachment(index) {
     </div>
     <div v-if="localTexts.length" class="grid gap-3">
       <div v-for="(text, index) in localTexts" :key="index" class="grid gap-1">
-        <Label class="text-xs font-semibold" :for="`message-text-${index}`">Text {{ index + 1 }}</Label>
+        <Label class="text-xs font-semibold" :for="`message-text-${index}`">
+          Text {{ index + 1 }}
+        </Label>
         <div class="flex items-center gap-1">
           <Input
             class="flex-1"
@@ -130,14 +132,16 @@ function removeAttachment(index) {
             :model-value="text"
             maxlength="5000"
             @update:model-value="updateText(index, $event)"
-          /><Button
+          />
+          <Button
             type="button"
             variant="ghost"
             size="icon"
             :aria-label="`Remove text ${index + 1}`"
             @click="removeText(index)"
-            ><span aria-hidden="true">×</span></Button
           >
+            <span aria-hidden="true">×</span>
+          </Button>
         </div>
       </div>
     </div>
@@ -151,7 +155,9 @@ function removeAttachment(index) {
     <div class="flex items-start justify-between gap-3">
       <div>
         <h3 class="m-0 text-sm font-semibold">Attachments</h3>
-        <p class="m-1 mt-1 text-xs text-muted-foreground">JPG, PNG, GIF, WebP, or PDF up to 10 MB each.</p>
+        <p class="m-1 mt-1 text-xs text-muted-foreground">
+          JPG, PNG, GIF, WebP, or PDF up to 10 MB each.
+        </p>
       </div>
       <Button
         type="button"
@@ -159,8 +165,9 @@ function removeAttachment(index) {
         size="sm"
         :disabled="localAttachments.length >= MAX_ATTACHMENTS"
         @click="chooseFiles"
-        >Upload</Button
       >
+        Upload
+      </Button>
     </div>
     <input
       ref="fileInput"
@@ -179,6 +186,8 @@ function removeAttachment(index) {
       />
     </div>
     <p v-else class="m-1 mt-0 text-xs text-muted-foreground">No attachments added.</p>
-    <p v-if="attachmentError" class="m-0 text-xs text-destructive" role="alert">{{ attachmentError }}</p>
+    <p v-if="attachmentError" class="m-0 text-xs text-destructive" role="alert">
+      {{ attachmentError }}
+    </p>
   </div>
 </template>

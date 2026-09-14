@@ -201,10 +201,14 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
       >
         <p>Success and failure branches are display-only.</p>
       </div>
-      <form v-else class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5" @submit.prevent="save">
-        <Alert v-if="error" variant="destructive"
-          ><AlertDescription>{{ error }}</AlertDescription></Alert
-        >
+      <form
+        v-else
+        class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5"
+        @submit.prevent="save"
+      >
+        <Alert v-if="error" variant="destructive">
+          <AlertDescription>{{ error }}</AlertDescription>
+        </Alert>
         <NodeGeneralFields
           :title="draft.title"
           :description="draft.description"
@@ -216,7 +220,10 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           @update:type="updateType"
         />
 
-        <dl v-if="isTrigger" class="m-0 grid gap-2.5 rounded-lg border border-border bg-muted p-3.5">
+        <dl
+          v-if="isTrigger"
+          class="m-0 grid gap-2.5 rounded-lg border border-border bg-muted p-3.5"
+        >
           <div class="grid gap-0.5">
             <dt class="text-[.7rem] text-muted-foreground">Trigger event</dt>
             <dd class="m-0 text-xs">{{ draft.data?.type || 'Conversation opened' }}</dd>
@@ -247,7 +254,9 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           @update:model-value="updateData"
         />
 
-        <SheetFooter class="sticky bottom-0 -mx-5 -mb-5 mt-auto flex-row items-center gap-2 border-t border-border bg-background px-5 py-4">
+        <SheetFooter
+          class="sticky bottom-0 -mx-5 -mb-5 mt-auto flex-row items-center gap-2 border-t border-border bg-background px-5 py-4"
+        >
           <Button
             v-if="canDelete"
             type="button"
@@ -258,12 +267,14 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
             aria-label="Delete"
             title="Delete"
             @click="requestDelete"
-            ><Trash2 class="size-4" aria-hidden="true" /><span class="sr-only">Delete</span></Button
           >
+            <Trash2 class="size-4" aria-hidden="true" />
+            <span class="sr-only">Delete</span>
+          </Button>
           <Button type="button" variant="outline" :disabled="busy" @click="close">Cancel</Button>
-          <Button type="submit" :disabled="busy || isBranchMarker">{{
-            busy ? 'Saving…' : creating ? 'Create node' : 'Save changes'
-          }}</Button>
+          <Button type="submit" :disabled="busy || isBranchMarker">
+            {{ busy ? 'Saving…' : creating ? 'Create node' : 'Save changes' }}
+          </Button>
         </SheetFooter>
       </form>
     </SheetContent>
@@ -271,33 +282,31 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
 
   <AlertDialog :open="showDiscardDialog" @update:open="showDiscardDialog = $event">
     <AlertDialogContent>
-      <AlertDialogHeader
-        ><AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle
-        ><AlertDialogDescription
-          >Your edits will be lost if you close this drawer.</AlertDialogDescription
-        ></AlertDialogHeader
-      >
-      <AlertDialogFooter
-        ><AlertDialogCancel @click="pendingClose = false">Keep editing</AlertDialogCancel
-        ><AlertDialogAction @click="discardAndClose"
-          >Discard changes</AlertDialogAction
-        ></AlertDialogFooter
-      >
+      <AlertDialogHeader>
+        <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+        <AlertDialogDescription>
+          Your edits will be lost if you close this drawer.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel @click="pendingClose = false">Keep editing</AlertDialogCancel>
+        <AlertDialogAction @click="discardAndClose">Discard changes</AlertDialogAction>
+      </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
 
   <AlertDialog :open="showDeleteDialog" @update:open="showDeleteDialog = $event">
     <AlertDialogContent>
-      <AlertDialogHeader
-        ><AlertDialogTitle>Delete this node?</AlertDialogTitle
-        ><AlertDialogDescription
-          >This removes the node and its connections from the workflow.</AlertDialogDescription
-        ></AlertDialogHeader
-      >
-      <AlertDialogFooter
-        ><AlertDialogCancel>Cancel</AlertDialogCancel
-        ><AlertDialogAction @click="deleteNode">Delete node</AlertDialogAction></AlertDialogFooter
-      >
+      <AlertDialogHeader>
+        <AlertDialogTitle>Delete this node?</AlertDialogTitle>
+        <AlertDialogDescription>
+          This removes the node and its connections from the workflow.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction @click="deleteNode">Delete node</AlertDialogAction>
+      </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
 </template>

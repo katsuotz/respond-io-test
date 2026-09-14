@@ -36,7 +36,10 @@ const typeLabel = computed(
 <template>
   <div class="grid gap-4">
     <div class="grid gap-1.5">
-      <Label class="text-xs font-semibold text-foreground" for="node-title">Title <span class="text-destructive" aria-hidden="true">*</span></Label>
+      <Label class="text-xs font-semibold text-foreground" for="node-title">
+        Title
+        <span class="text-destructive" aria-hidden="true">*</span>
+      </Label>
       <Input
         id="node-title"
         :model-value="title"
@@ -46,13 +49,20 @@ const typeLabel = computed(
         :aria-describedby="errors.title ? 'node-title-error' : undefined"
         @update:model-value="emit('update:title', $event)"
       />
-      <p v-if="errors.title" id="node-title-error" class="m-0 text-xs text-destructive" role="alert">
+      <p
+        v-if="errors.title"
+        id="node-title-error"
+        class="m-0 text-xs text-destructive"
+        role="alert"
+      >
         {{ errors.title }}
       </p>
     </div>
 
     <div class="grid gap-1.5">
-      <Label class="text-xs font-semibold text-foreground" for="node-description">Description</Label>
+      <Label class="text-xs font-semibold text-foreground" for="node-description">
+        Description
+      </Label>
       <Textarea
         id="node-description"
         :model-value="description"
@@ -67,17 +77,22 @@ const typeLabel = computed(
           id="node-description-error"
           class="text-destructive"
           role="alert"
-          >{{ errors.description }}</span
-        ><span>{{ description.length }}/500</span>
+        >
+          {{ errors.description }}
+        </span>
+        <span>{{ description.length }}/500</span>
       </div>
     </div>
 
     <div class="grid gap-1.5">
-      <Label class="text-xs font-semibold text-foreground" for="node-type">Type of node <span class="text-destructive" aria-hidden="true">*</span></Label>
+      <Label class="text-xs font-semibold text-foreground" for="node-type">
+        Type of node
+        <span class="text-destructive" aria-hidden="true">*</span>
+      </Label>
       <Select v-if="creating" :model-value="type" @update:model-value="emit('update:type', $event)">
-        <SelectTrigger id="node-type" :aria-invalid="Boolean(errors.type)"
-          ><SelectValue placeholder="Select a node type"
-        /></SelectTrigger>
+        <SelectTrigger id="node-type" :aria-invalid="Boolean(errors.type)">
+          <SelectValue placeholder="Select a node type" />
+        </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectItem value="sendMessage">Send Message</SelectItem>

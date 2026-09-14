@@ -47,17 +47,16 @@ onBeforeUnmount(releaseObjectUrl)
 </script>
 
 <template>
-  <div class="attachment-preview relative flex min-w-0 items-center gap-2.5 rounded-lg border border-border bg-muted p-2">
+  <div
+    class="attachment-preview relative flex min-w-0 items-center gap-2.5 rounded-lg border border-border bg-muted p-2"
+  >
     <div
       class="relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-md bg-background text-muted-foreground"
       aria-hidden="true"
     >
-      <span
-        v-if="isImage && url && !imageLoaded"
-        class="absolute text-[.55rem]"
-        aria-live="polite"
-        >Loading…</span
-      >
+      <span v-if="isImage && url && !imageLoaded" class="absolute text-[.55rem]" aria-live="polite">
+        Loading…
+      </span>
       <img
         v-if="isImage && url"
         :src="url"
@@ -69,7 +68,12 @@ onBeforeUnmount(releaseObjectUrl)
       />
       <FileText v-else class="size-[1.3rem]" aria-hidden="true" />
     </div>
-    <span class="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[.78rem] text-foreground" :title="name">{{ name }}</span>
+    <span
+      class="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[.78rem] text-foreground"
+      :title="name"
+    >
+      {{ name }}
+    </span>
     <button
       type="button"
       class="attachment-preview__remove ml-auto grid size-[1.7rem] shrink-0 place-items-center rounded-md border-0 bg-transparent text-muted-foreground transition-colors hover:bg-background hover:text-destructive focus-visible:bg-background focus-visible:text-destructive"

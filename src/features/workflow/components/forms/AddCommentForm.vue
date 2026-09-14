@@ -27,8 +27,8 @@ function update(value) {
       @update:model-value="update"
     />
     <div class="flex justify-between gap-3 text-[.7rem] text-muted-foreground">
-      <span v-if="errors.comment" class="text-destructive" role="alert">{{ errors.comment }}</span
-      ><span>{{ comment.length }}/5000</span>
+      <span v-if="errors.comment" class="text-destructive" role="alert">{{ errors.comment }}</span>
+      <span>{{ comment.length }}/5000</span>
     </div>
   </div>
 </template>

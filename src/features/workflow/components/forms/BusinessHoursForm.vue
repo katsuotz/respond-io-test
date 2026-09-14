@@ -49,14 +49,18 @@ function updateTimezone(value) {
       <div
         class="grid grid-cols-[minmax(4.3rem,1fr)_1fr_1fr] items-center gap-2 px-[.15rem] text-[.68rem] font-semibold text-muted-foreground"
       >
-        <span>Day</span><span>Opens</span><span>Closes</span>
+        <span>Day</span>
+        <span>Opens</span>
+        <span>Closes</span>
       </div>
       <div
         v-for="(entry, index) in schedule"
         :key="entry.day"
         class="grid grid-cols-[minmax(4.3rem,1fr)_1fr_1fr] items-center gap-2"
       >
-        <Label class="text-xs font-semibold" :for="`hours-${entry.day}-start`">{{ DAYS[index][1] }}</Label>
+        <Label class="text-xs font-semibold" :for="`hours-${entry.day}-start`">
+          {{ DAYS[index][1] }}
+        </Label>
         <Input
           :id="`hours-${entry.day}-start`"
           type="time"
@@ -97,7 +101,12 @@ function updateTimezone(value) {
       <datalist id="workflow-timezones">
         <option v-for="option in TIMEZONES" :key="option" :value="option" />
       </datalist>
-      <p v-if="errors.timezone" id="timezone-error" class="m-0 text-xs text-destructive" role="alert">
+      <p
+        v-if="errors.timezone"
+        id="timezone-error"
+        class="m-0 text-xs text-destructive"
+        role="alert"
+      >
         {{ errors.timezone }}
       </p>
     </div>

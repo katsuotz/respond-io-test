@@ -127,7 +127,12 @@ defineExpose({
       fit-view-on-init
       :fit-view-options="{ padding: 0.22, maxZoom: 1 }"
       @pane-click="clearEdgeSelection"
-      @node-click="({ node }) => { clearEdgeSelection(); node.data.node.type !== 'branch' && emit('select', node.id) }"
+      @node-click="
+        ({ node }) => {
+          clearEdgeSelection()
+          node.data.node.type !== 'branch' && emit('select', node.id)
+        }
+      "
       @node-drag-stop="({ node }) => emit('move', node.id, node.position)"
       @connect="(connection) => emit('connect', connection)"
       @edge-click="selectEdge"
@@ -135,26 +140,34 @@ defineExpose({
     >
       <Background pattern-color="#cdd6d8" :gap="20" :size="1" />
       <Controls :show-interactive="false" position="bottom-left">
-        <template #control-zoom-in
-          ><Button variant="ghost" size="icon" aria-label="Zoom in" @click="zoomIn()"
-            ><Plus /></Button
-        ></template>
-        <template #control-zoom-out
-          ><Button variant="ghost" size="icon" aria-label="Zoom out" @click="zoomOut()"
-            ><Minus /></Button
-        ></template>
-        <template #control-fit-view
-          ><Button
+        <template #control-zoom-in>
+          <Button variant="ghost" size="icon" aria-label="Zoom in" @click="zoomIn()">
+            <Plus />
+          </Button>
+        </template>
+        <template #control-zoom-out>
+          <Button variant="ghost" size="icon" aria-label="Zoom out" @click="zoomOut()">
+            <Minus />
+          </Button>
+        </template>
+        <template #control-fit-view>
+          <Button
             variant="ghost"
             size="icon"
             aria-label="Fit canvas"
             @click="fitView({ padding: 0.25 })"
-            ><Maximize /></Button
-        ></template>
+          >
+            <Maximize />
+          </Button>
+        </template>
       </Controls>
     </VueFlow>
     <div class="canvas-hint">
-      Drag to move <span>·</span> Connect the dots <span>·</span> Click a line, then press Delete to disconnect
+      Drag to move
+      <span>·</span>
+      Connect the dots
+      <span>·</span>
+      Click a line, then press Delete to disconnect
     </div>
   </div>
 </template>
