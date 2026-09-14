@@ -16,6 +16,7 @@ const nodeTypes = { workflow: markRaw(WorkflowNode) }
 const { fitView, zoomIn, zoomOut, screenToFlowCoordinate } = useVueFlow('workflow')
 const root = ref(null)
 const nodes = ref([])
+const selectedEdgeId = ref('')
 function syncNodes(value = props.graph.nodes) {
   nodes.value = value.map((node) => ({
     id: node.id,
@@ -50,7 +51,7 @@ const edges = computed(() =>
       updatable: !fixed,
       selectable: !fixed,
       deletable: false,
-      style: { stroke: color, strokeWidth: 1.6 },
+      style: { stroke: color, strokeWidth: 1.6, strokeOpacity: 0.45 },
       markerEnd: { type: MarkerType.ArrowClosed, color, width: 13, height: 13 },
     }
   }),
@@ -64,12 +65,29 @@ function centerPosition() {
   return { x: point.x - 130, y: point.y - 60 }
 }
 function keySelect(event) {
+  if (event.key === 'Delete' || event.key === 'Backspace') {
+    const edge = props.graph.edges.find((item) => String(item.id) === selectedEdgeId.value)
+    const target = props.graph.nodes.find((node) => String(node.id) === String(edge?.target))
+    if (!edge || target?.type === 'branch') return
+    event.preventDefault()
+    selectedEdgeId.value = ''
+    emit('disconnect', edge.id)
+    return
+  }
   if (event.key !== 'Enter' && event.key !== ' ') return
   const element = event.target.closest('.vue-flow__node')
   const node = props.graph.nodes.find((item) => item.id === element?.dataset.id)
   if (!node || node.type === 'branch') return
   event.preventDefault()
   emit('select', node.id)
+}
+function selectEdge({ edge }) {
+  if (!edge.selectable) return
+  selectedEdgeId.value = String(edge.id)
+  root.value?.focus()
+}
+function clearEdgeSelection() {
+  selectedEdgeId.value = ''
 }
 defineExpose({
   centerPosition,
@@ -83,7 +101,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="root" class="canvas-root" @keydown="keySelect">
+  <div ref="root" class="canvas-root" tabindex="-1" @keydown="keySelect">
     <VueFlow
       id="workflow"
       v-model:nodes="nodes"
@@ -96,11 +114,12 @@ defineExpose({
       :connect-on-click="false"
       fit-view-on-init
       :fit-view-options="{ padding: 0.22, maxZoom: 1 }"
-      @node-click="({ node }) => node.data.node.type !== 'branch' && emit('select', node.id)"
+      @pane-click="clearEdgeSelection"
+      @node-click="({ node }) => { clearEdgeSelection(); node.data.node.type !== 'branch' && emit('select', node.id) }"
       @node-drag-stop="({ node }) => emit('move', node.id, node.position)"
       @connect="(connection) => emit('connect', connection)"
+      @edge-click="selectEdge"
       @edge-update="({ edge, connection }) => emit('reconnect', edge.id, connection)"
-      @edge-double-click="({ edge }) => edge.updatable && emit('disconnect', edge.id)"
     >
       <Background pattern-color="#cdd6d8" :gap="20" :size="1" />
       <Controls :show-interactive="false" position="bottom-left">
@@ -123,7 +142,7 @@ defineExpose({
       </Controls>
     </VueFlow>
     <div class="canvas-hint">
-      Drag to move <span>·</span> Connect the dots <span>·</span> Double-click a line to disconnect
+      Drag to move <span>·</span> Connect the dots <span>·</span> Click a line, then press Delete to disconnect
     </div>
   </div>
 </template>
@@ -165,6 +184,16 @@ defineExpose({
   outline: 2px solid var(--ring);
   outline-offset: 5px;
   border-radius: 12px;
+}
+:deep(.vue-flow__edge) {
+  cursor: pointer;
+}
+:deep(.vue-flow__edge .vue-flow__edge-path) {
+  transition: stroke-opacity 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:deep(.vue-flow__edge.selected .vue-flow__edge-path),
+:deep(.vue-flow__edge:focus-visible .vue-flow__edge-path) {
+  stroke-opacity: 1 !important;
 }
 @media (max-width: 800px) {
   .canvas-hint {

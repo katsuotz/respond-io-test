@@ -196,6 +196,18 @@ test('uses a full-width details drawer on mobile', async ({ page }) => {
   await expect(drawer).toHaveCSS('width', '375px')
 })
 
+test('highlights a connector when selected', async ({ page }) => {
+  const edge = page.getByRole('group', { name: 'Edge from b6a0c1 to e879e4', exact: true })
+  const path = edge.locator('.vue-flow__edge-path')
+
+  await expect(path).toHaveCSS('stroke-opacity', '0.45')
+  await edge.click()
+
+  await expect(edge).toHaveClass(/selected/)
+  await expect(path).toHaveCSS('stroke', 'rgb(155, 183, 173)')
+  await expect(path).toHaveCSS('stroke-opacity', '1')
+})
+
 test('disconnects and reconnects nodes using canvas handles', async ({ page }) => {
   const edge = page.getByRole('group', { name: 'Edge from b6a0c1 to e879e4', exact: true })
   const source = page.locator('.vue-flow__node[data-id="b6a0c1"] .vue-flow__handle.source')
@@ -203,7 +215,9 @@ test('disconnects and reconnects nodes using canvas handles', async ({ page }) =
   await page.getByRole('button', { name: 'Fit canvas', exact: true }).click()
   const sourceBox = await source.boundingBox()
   const targetBox = await target.boundingBox()
-  await page.mouse.dblclick(sourceBox.x + sourceBox.width / 2, (sourceBox.y + targetBox.y) / 2)
+  await edge.click()
+  await expect(edge).toHaveClass(/selected/)
+  await page.keyboard.press('Delete')
   await expect(edge).toHaveCount(0)
   await page.mouse.move(sourceBox.x + sourceBox.width / 2, sourceBox.y + sourceBox.height / 2)
   await page.mouse.down()
