@@ -1,4 +1,5 @@
 <script setup>
+import { Trash2 } from '@lucide/vue'
 import { computed, ref, watch } from 'vue'
 import {
   Sheet,
@@ -200,7 +201,7 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
       >
         <p>Success and failure branches are display-only.</p>
       </div>
-      <form v-else class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-5" @submit.prevent="save">
+      <form v-else class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 pt-5" @submit.prevent="save">
         <Alert v-if="error" variant="destructive"
           ><AlertDescription>{{ error }}</AlertDescription></Alert
         >
@@ -250,11 +251,14 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           <Button
             v-if="canDelete"
             type="button"
-            variant="destructive"
-            class="mr-auto"
+            variant="outline"
+            size="icon"
+            class="mr-auto text-destructive hover:border-destructive! hover:bg-destructive! hover:text-destructive-foreground!"
             :disabled="busy"
+            aria-label="Delete"
+            title="Delete"
             @click="requestDelete"
-            >Delete</Button
+            ><Trash2 class="size-4" aria-hidden="true" /><span class="sr-only">Delete</span></Button
           >
           <Button type="button" variant="outline" :disabled="busy" @click="close">Cancel</Button>
           <Button type="submit" :disabled="busy || isBranchMarker">{{
