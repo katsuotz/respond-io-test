@@ -12,6 +12,10 @@ node_modules
 dist
 dist-ssr
 coverage
+output/
+.playwright-cli/
+playwright-report/
+test-results/
 *.local
 
 # Editor directories and files
