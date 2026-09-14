@@ -45,10 +45,18 @@ function updateTimezone(value) {
 
 <template>
   <div class="grid gap-4">
-    <div class="hours-table" role="group" aria-label="Business hours by day">
-      <div class="hours-table__header"><span>Day</span><span>Opens</span><span>Closes</span></div>
-      <div v-for="(entry, index) in schedule" :key="entry.day" class="hours-row">
-        <Label :for="`hours-${entry.day}-start`">{{ DAYS[index][1] }}</Label>
+    <div class="grid gap-[.45rem]" role="group" aria-label="Business hours by day">
+      <div
+        class="grid grid-cols-[minmax(4.3rem,1fr)_1fr_1fr] items-center gap-2 px-[.15rem] text-[.68rem] font-semibold text-muted-foreground"
+      >
+        <span>Day</span><span>Opens</span><span>Closes</span>
+      </div>
+      <div
+        v-for="(entry, index) in schedule"
+        :key="entry.day"
+        class="grid grid-cols-[minmax(4.3rem,1fr)_1fr_1fr] items-center gap-2"
+      >
+        <Label class="text-xs font-semibold" :for="`hours-${entry.day}-start`">{{ DAYS[index][1] }}</Label>
         <Input
           :id="`hours-${entry.day}-start`"
           type="time"
@@ -65,7 +73,13 @@ function updateTimezone(value) {
           :aria-invalid="Boolean(errors[entry.day])"
           @update:model-value="updateTime(entry.day, 'endTime', $event)"
         />
-        <p v-if="errors[entry.day]" class="field-error m-0 text-xs text-destructive" role="alert">{{ errors[entry.day] }}</p>
+        <p
+          v-if="errors[entry.day]"
+          class="col-span-2 col-start-2 m-0 -mt-0.5 text-xs text-destructive"
+          role="alert"
+        >
+          {{ errors[entry.day] }}
+        </p>
       </div>
     </div>
     <p v-if="errors.times" class="m-0 text-xs text-destructive" role="alert">{{ errors.times }}</p>
@@ -89,31 +103,3 @@ function updateTimezone(value) {
     </div>
   </div>
 </template>
-
-<style scoped>
-.hours-table {
-  display: grid;
-  gap: 0.45rem;
-}
-.hours-table__header,
-.hours-row {
-  display: grid;
-  grid-template-columns: minmax(4.3rem, 1fr) 1fr 1fr;
-  gap: 0.5rem;
-  align-items: center;
-}
-.hours-table__header {
-  padding: 0 0.15rem;
-  color: var(--muted-foreground, #657080);
-  font-size: 0.68rem;
-  font-weight: 600;
-}
-.hours-row :deep(label) {
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-.hours-row .field-error {
-  grid-column: 2 / -1;
-  margin: -0.15rem 0 0;
-}
-</style>

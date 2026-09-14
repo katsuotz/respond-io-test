@@ -47,100 +47,36 @@ onBeforeUnmount(releaseObjectUrl)
 </script>
 
 <template>
-  <div class="attachment-preview">
-    <div class="attachment-preview__media" aria-hidden="true">
+  <div class="attachment-preview relative flex min-w-0 items-center gap-2.5 rounded-lg border border-border bg-muted p-2">
+    <div
+      class="relative grid size-10 shrink-0 place-items-center overflow-hidden rounded-md bg-background text-muted-foreground"
+      aria-hidden="true"
+    >
       <span
         v-if="isImage && url && !imageLoaded"
-        class="attachment-preview__loading"
+        class="absolute text-[.55rem]"
         aria-live="polite"
         >Loading…</span
       >
       <img
         v-if="isImage && url"
         :src="url"
+        class="size-full object-cover"
         alt=""
         :aria-busy="!imageLoaded"
         @load="imageLoaded = true"
         @error="imageFailed = true"
       />
-      <FileText v-else aria-hidden="true" />
+      <FileText v-else class="size-[1.3rem]" aria-hidden="true" />
     </div>
-    <span class="attachment-preview__name" :title="name">{{ name }}</span>
+    <span class="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[.78rem] text-foreground" :title="name">{{ name }}</span>
     <button
       type="button"
-      class="attachment-preview__remove"
+      class="attachment-preview__remove ml-auto grid size-[1.7rem] shrink-0 place-items-center rounded-md border-0 bg-transparent text-muted-foreground transition-colors hover:bg-background hover:text-destructive focus-visible:bg-background focus-visible:text-destructive"
       :aria-label="`Remove ${name}`"
       @click="emit('remove')"
     >
-      <X aria-hidden="true" />
+      <X class="size-[.9rem]" aria-hidden="true" />
     </button>
   </div>
 </template>
-
-<style scoped>
-.attachment-preview {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  min-width: 0;
-  padding: 0.55rem;
-  border: 1px solid var(--border, #e1e5eb);
-  border-radius: 0.6rem;
-  background: var(--muted, #f3f5f7);
-}
-.attachment-preview__media {
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  flex: 0 0 2.5rem;
-  overflow: hidden;
-  border-radius: 0.4rem;
-  background: var(--background, #ffffff);
-  color: var(--muted-foreground, #657080);
-}
-.attachment-preview__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.attachment-preview__loading {
-  position: absolute;
-  font-size: 0.55rem;
-}
-.attachment-preview__media svg {
-  width: 1.3rem;
-  height: 1.3rem;
-}
-.attachment-preview__name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.78rem;
-  color: var(--foreground, #252b37);
-}
-.attachment-preview__remove {
-  display: grid;
-  place-items: center;
-  margin-left: auto;
-  width: 1.7rem;
-  height: 1.7rem;
-  flex: 0 0 1.7rem;
-  border: 0;
-  border-radius: 0.35rem;
-  background: transparent;
-  color: var(--muted-foreground, #657080);
-  cursor: pointer;
-}
-.attachment-preview__remove:hover,
-.attachment-preview__remove:focus-visible {
-  background: var(--background, #ffffff);
-  color: var(--destructive, #b42335);
-}
-.attachment-preview__remove svg {
-  width: 0.9rem;
-  height: 0.9rem;
-}
-</style>

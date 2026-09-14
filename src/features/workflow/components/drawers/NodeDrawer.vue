@@ -183,20 +183,24 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
   <Sheet :open="open" :modal="false" @update:open="(value) => !value && close()">
     <SheetContent
       side="right"
-      class="node-drawer w-full sm:max-w-md gap-0 p-0"
+      class="node-drawer w-full max-w-none gap-0 p-0 sm:max-w-md"
       :show-overlay="false"
       :aria-label="title"
       @interact-outside.prevent
     >
-      <SheetHeader class="node-drawer__header">
+      <SheetHeader class="border-b border-border px-5 pb-4 pt-5">
         <SheetTitle>{{ title }}</SheetTitle>
         <SheetDescription>{{ description }}</SheetDescription>
       </SheetHeader>
 
-      <div v-if="isBranchMarker" class="node-drawer__unavailable" role="status">
+      <div
+        v-if="isBranchMarker"
+        class="m-5 rounded-lg border border-border p-4 text-xs text-muted-foreground"
+        role="status"
+      >
         <p>Success and failure branches are display-only.</p>
       </div>
-      <form v-else class="node-drawer__body" @submit.prevent="save">
+      <form v-else class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-5" @submit.prevent="save">
         <Alert v-if="error" variant="destructive"
           ><AlertDescription>{{ error }}</AlertDescription></Alert
         >
@@ -211,14 +215,14 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           @update:type="updateType"
         />
 
-        <dl v-if="isTrigger" class="trigger-details">
-          <div>
-            <dt>Trigger event</dt>
-            <dd>{{ draft.data?.type || 'Conversation opened' }}</dd>
+        <dl v-if="isTrigger" class="m-0 grid gap-2.5 rounded-lg border border-border bg-muted p-3.5">
+          <div class="grid gap-0.5">
+            <dt class="text-[.7rem] text-muted-foreground">Trigger event</dt>
+            <dd class="m-0 text-xs">{{ draft.data?.type || 'Conversation opened' }}</dd>
           </div>
-          <div>
-            <dt>Run once per contact</dt>
-            <dd>{{ draft.data?.oncePerContact ? 'Yes' : 'No' }}</dd>
+          <div class="grid gap-0.5">
+            <dt class="text-[.7rem] text-muted-foreground">Run once per contact</dt>
+            <dd class="m-0 text-xs">{{ draft.data?.oncePerContact ? 'Yes' : 'No' }}</dd>
           </div>
         </dl>
 
@@ -242,17 +246,16 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           @update:model-value="updateData"
         />
 
-        <SheetFooter class="node-drawer__footer">
+        <SheetFooter class="sticky bottom-0 -mx-5 -mb-5 mt-auto flex-row items-center gap-2 border-t border-border bg-background px-5 py-4">
           <Button
             v-if="canDelete"
             type="button"
             variant="destructive"
-            class="node-drawer__delete"
+            class="mr-auto"
             :disabled="busy"
             @click="requestDelete"
             >Delete</Button
           >
-          <span class="node-drawer__footer-spacer" />
           <Button type="button" variant="outline" :disabled="busy" @click="close">Cancel</Button>
           <Button type="submit" :disabled="busy || isBranchMarker">{{
             busy ? 'Saving…' : creating ? 'Create node' : 'Save changes'
@@ -294,86 +297,3 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
     </AlertDialogContent>
   </AlertDialog>
 </template>
-
-<style scoped>
-.node-drawer {
-  display: flex;
-  width: min(100vw, 28rem);
-  max-width: 28rem;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-}
-.node-drawer__header {
-  padding: 1.35rem 1.35rem 1rem;
-  border-bottom: 1px solid var(--border, #e1e5eb);
-}
-.node-drawer__body {
-  display: flex;
-  min-height: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 1.25rem;
-  overflow-y: auto;
-  padding: 1.25rem 1.35rem;
-}
-.node-drawer__footer {
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: auto -1.35rem -1.25rem;
-  padding: 1rem 1.35rem;
-  border-top: 1px solid var(--border, #e1e5eb);
-  background: var(--background, #ffffff);
-}
-.node-drawer__footer-spacer {
-  flex: 1;
-}
-.node-drawer__delete {
-  margin-right: auto;
-}
-.node-drawer__unavailable {
-  margin: 1.35rem;
-  padding: 1rem;
-  border: 1px solid var(--border, #e1e5eb);
-  border-radius: 0.6rem;
-  color: var(--muted-foreground, #657080);
-  font-size: 0.8rem;
-}
-.node-drawer__unavailable p {
-  margin: 0;
-}
-.trigger-details {
-  display: grid;
-  gap: 0.65rem;
-  margin: 0;
-  padding: 0.85rem;
-  border: 1px solid var(--border, #e1e5eb);
-  border-radius: 0.6rem;
-  background: var(--muted, #f3f5f7);
-}
-.trigger-details div {
-  display: grid;
-  gap: 0.2rem;
-}
-.trigger-details dt {
-  color: var(--muted-foreground, #657080);
-  font-size: 0.7rem;
-}
-.trigger-details dd {
-  margin: 0;
-  font-size: 0.8rem;
-}
-@media (max-width: 640px) {
-  .node-drawer {
-    width: 100vw;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .node-drawer :deep(*) {
-    scroll-behavior: auto;
-  }
-}
-</style>
