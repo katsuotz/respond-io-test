@@ -4,10 +4,9 @@ A Vue workflow editor built with Vue Flow, Pinia, Vue Router, TanStack Query, an
 
 ## Setup
 
-Use Node.js 24.x and pnpm 12.4.1.
+Use Node.js 22.18+ (22.x) and pnpm 10.33.2.
 
 ```sh
-corepack enable
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -58,8 +57,6 @@ Routes are `/`, `/nodes/new`, and `/nodes/:nodeId`. Created-node links resolve i
 
 Within a feature, views compose the screen, composables coordinate behavior, stores own editable state, services perform I/O, constants define shared values, and utils contain pure functions. Shared infrastructure lives in `src/lib`; cross-feature pure helpers belong in `src/utils` when needed. Shared code must not import feature code.
 
-Use Tailwind utilities for ordinary layout, spacing, typography, colors, and responsive behavior. Keep scoped component CSS for complex grids, Vue Flow `:deep()` overrides, pseudo-state behavior, and distinctive node or attachment visuals. Reuse the semantic theme tokens in `src/styles/globals.css` instead of introducing new hard-coded colors.
-
 Use PascalCase Vue filenames, `useX.js` composables, camelCase JavaScript modules, and `@/` imports. Colocate `*.test.js` files beside their implementation. Shared test setup and fixtures live in `tests`. Avoid barrel exports and empty placeholder directories.
 
 ```text
@@ -83,3 +80,5 @@ src/
 tests/                          Test setup and browser integration tests
 public/data/                    Original assessment sample
 ```
+
+The feature code is custom implementation. shadcn-vue primitives are generated from its official registry. Tests exercise normalization, layout, graph restrictions, persistence and failures, form validation, drafts, attachments, and route-driven editing.

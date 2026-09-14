@@ -2,7 +2,7 @@
 import { ChevronDown } from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import { SelectIcon, SelectTrigger, useForwardProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from 'cn'
 
 const props = defineProps({
   disabled: { type: Boolean, required: false },

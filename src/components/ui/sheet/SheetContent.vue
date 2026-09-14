@@ -2,7 +2,7 @@
 import { X } from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import { DialogClose, DialogContent, DialogPortal, useForwardPropsEmits } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from 'cn'
 import SheetOverlay from './SheetOverlay.vue'
 
 defineOptions({

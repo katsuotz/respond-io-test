@@ -2,7 +2,7 @@
 import { ChevronDown } from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import { SelectScrollDownButton, useForwardProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from 'cn'
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
