@@ -43,16 +43,28 @@ const edges = computed(() =>
     const fixed = target?.type === 'branch'
     const color =
       (source?.data.connectorType || target?.data.connectorType) === 'failure'
-        ? '#d2967e'
-        : '#9bb7ad'
+        ? 'var(--connector-failure)'
+        : 'var(--connector)'
+    const selected = String(edge.id) === selectedEdgeId.value
     return {
       ...edge,
       type: 'smoothstep',
       updatable: !fixed,
       selectable: !fixed,
       deletable: false,
-      style: { stroke: color, strokeWidth: 1.6, strokeOpacity: 0.45 },
-      markerEnd: { type: MarkerType.ArrowClosed, color, width: 13, height: 13 },
+      style: {
+        stroke: color,
+        strokeWidth: selected ? 2.4 : 1.8,
+        strokeOpacity: selected ? 1 : 0.45,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+      },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color,
+        width: 12,
+        height: 12,
+      },
     }
   }),
 )

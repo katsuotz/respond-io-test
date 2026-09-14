@@ -28,9 +28,15 @@
   --canvas: #f8fafb;
   --canvas-dot: #cdd6d8;
   --node-trigger: #a04478;
+  --node-trigger-soft: #fbeef6;
   --node-message: #197f79;
+  --node-message-soft: #eaf7f5;
   --node-business: #b85f27;
+  --node-business-soft: #fff3e9;
   --node-comment: #7052b3;
+  --node-comment-soft: #f2effb;
+  --connector: #9bb7ad;
+  --connector-failure: #d2967e;
   --branch-success: #e9f5ef;
   --branch-success-foreground: #237151;
   --branch-failure: #fff0eb;
