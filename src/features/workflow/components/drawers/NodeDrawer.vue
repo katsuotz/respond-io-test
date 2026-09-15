@@ -50,7 +50,7 @@ const pendingClose = ref(false)
 
 const isDirty = computed(() => snapshot(draft.value) !== initialSnapshot.value)
 const title = computed(() =>
-  props.creating ? 'Create new node' : draft.value.title || 'Node details',
+  props.creating ? 'Add node' : draft.value.title || 'Node details',
 )
 const description = computed(() =>
   props.creating ? 'Add a node to your workflow.' : 'Edit this node and its workflow content.',
@@ -255,7 +255,7 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
         />
 
         <SheetFooter
-          class="sticky bottom-0 -mx-5 -mb-5 mt-auto flex-row items-center gap-2 border-t border-border bg-background px-5 py-4"
+          class="sticky bottom-0 -mx-5 -mb-5 mt-auto flex-row items-center justify-end gap-2 border-t border-border bg-background px-5 py-4"
         >
           <Button
             v-if="canDelete"
@@ -273,7 +273,7 @@ defineExpose({ hasUnsavedChanges, discard, markSaved })
           </Button>
           <Button type="button" variant="outline" :disabled="busy" @click="close">Cancel</Button>
           <Button type="submit" :disabled="busy || isBranchMarker">
-            {{ busy ? 'Saving…' : creating ? 'Create node' : 'Save changes' }}
+            {{ busy ? 'Saving…' : creating ? 'Add node' : 'Save changes' }}
           </Button>
         </SheetFooter>
       </form>

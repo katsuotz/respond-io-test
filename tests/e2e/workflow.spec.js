@@ -33,7 +33,7 @@ async function createNode(page, { title, type = 'sendMessage', description = '' 
             : 'Business Hours',
     })
     .click()
-  await page.getByRole('button', { name: 'Create node' }).click()
+  await page.getByRole('button', { name: 'Add node' }).click()
   await expect(page).toHaveURL(/\/$/)
   await expect(page.locator('.vue-flow__node').filter({ hasText: title })).toBeVisible()
 }
