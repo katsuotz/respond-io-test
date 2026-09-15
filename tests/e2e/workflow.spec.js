@@ -18,7 +18,7 @@ async function openNode(page, title) {
 }
 
 async function createNode(page, { title, type = 'sendMessage', description = '' }) {
-  await page.getByRole('button', { name: 'Create New Node' }).click()
+  await page.getByRole('button', { name: 'Add node' }).click()
   await expect(page).toHaveURL(/\/nodes\/new$/)
   await page.locator('#node-title').fill(title)
   if (description) await page.locator('#node-description').fill(description)

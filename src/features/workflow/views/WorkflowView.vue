@@ -2,9 +2,8 @@
 import { computed, onBeforeUnmount, ref } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { useMutation } from '@tanstack/vue-query'
-import { Workflow, Plus, Maximize, AlertCircle, X } from '@lucide/vue'
+import { Workflow, Plus, AlertCircle, X } from '@lucide/vue'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -45,9 +44,6 @@ const invalidRoute = computed(
     route.path !== '/' &&
     !creating.value &&
     (!selectedNode.value || selectedNode.value.type === 'branch'),
-)
-const editableCount = computed(
-  () => store.graph.nodes.filter((node) => node.type !== 'branch').length,
 )
 const mutation = useMutation({ mutationFn: ({ action, args }) => store[action](...args) })
 
@@ -135,24 +131,12 @@ onBeforeUnmount(() => {
         </h1>
       </div>
       <div class="flex items-center gap-2.5 max-[640px]:w-full">
-        <Badge variant="secondary" class="mr-2 font-normal max-[640px]:mr-auto">
-          {{ editableCount }} nodes
-        </Badge>
-        <Button
-          variant="outline"
-          size="icon"
-          aria-label="Fit workflow to view"
-          :disabled="!store.loaded"
-          @click="canvas?.fit()"
-        >
-          <Maximize />
-        </Button>
         <Button
           :disabled="!store.loaded || mutation.isPending.value"
           @click="router.push('/nodes/new')"
         >
           <Plus />
-          Create New Node
+          Add node
         </Button>
       </div>
     </section>
@@ -199,7 +183,7 @@ onBeforeUnmount(() => {
         </p>
         <Button class="pointer-events-auto" @click="router.push('/nodes/new')">
           <Plus />
-          Create New Node
+          Add node
         </Button>
       </div>
       <div

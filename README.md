@@ -26,7 +26,7 @@ Before the first browser test run, install Chromium with `pnpm exec playwright i
 
 Select a node to open its details. Select it again to close the drawer, or select another node to switch. Edit a draft and choose **Save changes** or **Cancel**; leaving an unsaved draft asks for confirmation. Nodes are keyboard-focusable and Enter opens details.
 
-**Create New Node** adds a Send Message, Add Comment, or Business Hours node near the visible canvas center. Drag nodes to reposition them. Drag between connection handles to connect nodes, drag a connection endpoint to reconnect, and double-click an editable line to disconnect. Zoom controls and fit-to-view sit at the lower left.
+**Add node** adds a Send Message, Add Comment, or Business Hours node near the visible canvas center. Drag nodes to reposition them. Drag between connection handles to connect nodes, drag a connection endpoint to reconnect, and double-click an editable line to disconnect. Zoom controls and fit-to-view sit at the lower left.
 
 Business Hours uses seven weekday time ranges and an IANA timezone. New schedules use UTC and 09:00–17:00 daily. Success and Failure markers are managed by Business Hours and remain display-only. Deleting a node removes its connections and owned markers while preserving downstream nodes.
 
