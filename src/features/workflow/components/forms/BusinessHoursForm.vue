@@ -1,5 +1,16 @@
 <script setup>
 import { computed } from 'vue'
+import { Check } from '@lucide/vue'
+import {
+  Combobox,
+  ComboboxAnchor,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxList,
+} from '@/components/ui/combobox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -13,6 +24,7 @@ const DAYS = [
   ['sun', 'Sunday'],
 ]
 const TIMEZONES = ['UTC', ...Intl.supportedValuesOf('timeZone')]
+const TIMEZONE_OPTIONS = TIMEZONES.map((value) => ({ value, label: value }))
 
 const props = defineProps({
   modelValue: { type: Object, default: () => ({}) },
@@ -31,6 +43,14 @@ const schedule = computed(() =>
   ),
 )
 const timezone = computed(() => props.modelValue?.timezone || 'UTC')
+const selectedTimezone = computed({
+  get: () =>
+    TIMEZONE_OPTIONS.find((option) => option.value === timezone.value) || {
+      value: timezone.value,
+      label: timezone.value,
+    },
+  set: (value) => updateTimezone(value?.value || ''),
+})
 
 function updateTime(day, field, value) {
   const times = schedule.value.map((entry) =>
@@ -89,18 +109,33 @@ function updateTimezone(value) {
     <p v-if="errors.times" class="m-0 text-xs text-destructive" role="alert">{{ errors.times }}</p>
     <div class="grid gap-1.5">
       <Label class="text-xs font-semibold text-foreground" for="node-timezone">Time zone</Label>
-      <Input
-        id="node-timezone"
-        list="workflow-timezones"
-        :model-value="timezone"
-        autocomplete="off"
-        :aria-invalid="Boolean(errors.timezone)"
-        :aria-describedby="errors.timezone ? 'timezone-error' : undefined"
-        @update:model-value="updateTimezone"
-      />
-      <datalist id="workflow-timezones">
-        <option v-for="option in TIMEZONES" :key="option" :value="option" />
-      </datalist>
+      <Combobox v-model="selectedTimezone" by="value" :open-on-focus="true" :open-on-click="true">
+        <ComboboxAnchor class="w-full">
+          <ComboboxInput
+            id="node-timezone"
+            :display-value="(value) => value?.label || ''"
+            placeholder="Search time zones..."
+            :aria-invalid="Boolean(errors.timezone)"
+            :aria-describedby="errors.timezone ? 'timezone-error' : undefined"
+          />
+        </ComboboxAnchor>
+        <ComboboxList align="start" class="w-(--reka-combobox-trigger-width)">
+          <ComboboxEmpty>No time zone found.</ComboboxEmpty>
+          <ComboboxGroup>
+            <ComboboxItem
+              v-for="option in TIMEZONE_OPTIONS"
+              :key="option.value"
+              :value="option"
+              :text-value="option.label"
+            >
+              {{ option.label }}
+              <ComboboxItemIndicator>
+                <Check />
+              </ComboboxItemIndicator>
+            </ComboboxItem>
+          </ComboboxGroup>
+        </ComboboxList>
+      </Combobox>
       <p
         v-if="errors.timezone"
         id="timezone-error"

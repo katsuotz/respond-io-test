@@ -143,6 +143,7 @@ test('validates and persists business-hours changes', async ({ page }) => {
 
   await page.getByLabel('Monday closing time').fill('18:00')
   await page.getByLabel('Time zone').fill('Asia/Bangkok')
+  await page.getByRole('option', { name: 'Asia/Bangkok', exact: true }).click()
   await page.getByRole('button', { name: 'Save changes' }).click()
   await expect(page).toHaveURL(/\/$/)
 

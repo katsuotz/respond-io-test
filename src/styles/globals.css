@@ -117,6 +117,10 @@ textarea {
   scrollbar-width: thin;
   scrollbar-color: #bcc8c5 transparent;
 }
+.combobox-scrollbar {
+  scrollbar-width: thin !important;
+  -ms-overflow-style: auto !important;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
