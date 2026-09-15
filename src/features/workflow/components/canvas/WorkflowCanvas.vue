@@ -59,12 +59,14 @@ const edges = computed(() =>
         strokeLinecap: 'round',
         strokeLinejoin: 'round',
       },
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        color,
-        width: 12,
-        height: 12,
-      },
+      markerEnd: fixed
+        ? undefined
+        : {
+            type: MarkerType.ArrowClosed,
+            color,
+            width: 12,
+            height: 12,
+          },
     }
   }),
 )
@@ -193,6 +195,7 @@ defineExpose({
 }
 :deep(.vue-flow__controls) {
   display: flex;
+  background: var(--card);
   box-shadow: none;
   border: 1px solid var(--border);
   border-radius: 8px;

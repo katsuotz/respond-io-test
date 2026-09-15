@@ -39,7 +39,12 @@ const attachmentCount = computed(
 
 <template>
   <div v-if="node.type === 'branch'" class="branch-label" :class="node.data.connectorType">
-    <Handle type="target" :position="Position.Top" :connectable="false" />
+    <Handle
+      type="target"
+      :position="Position.Top"
+      :connectable="false"
+      class="branch-target-handle"
+    />
     <span class="branch-icon" aria-hidden="true">
       <component :is="node.data.connectorType === 'success' ? Check : X" :size="12" />
     </span>
